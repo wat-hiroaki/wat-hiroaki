@@ -47,8 +47,7 @@ const getTimeZoneActivityLevel = (dayData, hours) => {
 let textVisualization = '';
 
 // ヒートマップ部分
-textVisualization += '📊 ACTIVITY HEATMAP\n';
-textVisualization += '='.repeat(50) + '\n\n';
+textVisualization += '📊 ACTIVITY HEATMAP\n\n';
 
 // ヘッダー行（曜日ラベル）
 textVisualization += '     ';
@@ -70,10 +69,8 @@ timeZones.forEach(timeZone => {
   textVisualization += '\n';
 });
 
-
 // 技術スタック部分
-textVisualization += '\n\n🛠️  TECH STACK\n';
-textVisualization += '='.repeat(50) + '\n\n';
+textVisualization += '\n🛠️  TECH STACK\n\n';
 
 // 各技術のバーグラフを生成
 Object.entries(techStackData.techStack).forEach(([tech, percentage]) => {
