@@ -1,58 +1,40 @@
-起業準備中です。
-
-## 📊 活動パターン
-
-月曜日始まりの週間活動ヒートマップです。
-
 ![Activity Heatmap](./activity-heatmap.svg)
-
-### 活動レベルの説明
-- 🔴 **レベル5**: 高活動（最も活発な時間帯）
-- 🟠 **レベル4**: 中高活動
-- 🟡 **レベル3**: 中活動
-- 🟢 **レベル2**: 低活動
-- ⚪ **レベル1**: 非活動
-- ⚫ **レベル0**: データなし
-
-## 🛠️ 技術スタック
-
-主に使用している技術の習熟度を表示しています。
 
 ![Tech Stack](./tech-stack.svg)
 
-### データの更新方法
+### Data Update Methods
 
-#### 手動更新
-1. `activity-data.json` または `tech-stack-data.json` ファイルを編集
-2. `node generate-all.js` を実行してSVGを再生成
-3. 変更をコミット・プッシュ
+#### Manual Update
+1. Edit `activity-data.json` or `tech-stack-data.json` files
+2. Run `node generate-all.js` to regenerate SVGs
+3. Commit and push changes
 
-#### 自動更新（GitHub API連携）
-GitHub Actionsが毎日午前6時（JST）に実行され、実際のGitHub活動データから自動でビジュアライゼーションを生成します。
+#### Automatic Update (GitHub API Integration)
+GitHub Actions runs daily at 6:00 AM (JST) to automatically generate visualizations from actual GitHub activity data.
 
-### セットアップ方法
+### Setup Instructions
 
-#### 1. GitHub Personal Access Token の作成
+#### 1. Create GitHub Personal Access Token
 1. GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
-2. "Generate new token" をクリック
-3. 以下のスコープを選択：
-   - `repo` (リポジトリアクセス)
-   - `read:user` (ユーザー情報読み取り)
-4. トークンをコピーして保存
+2. Click "Generate new token"
+3. Select the following scopes:
+   - `repo` (repository access)
+   - `read:user` (user information read)
+4. Copy and save the token
 
-#### 2. GitHub リポジトリのシークレット設定
-1. リポジトリの Settings → Secrets and variables → Actions
-2. "New repository secret" をクリック
+#### 2. Set GitHub Repository Secrets
+1. Repository Settings → Secrets and variables → Actions
+2. Click "New repository secret"
 3. Name: `GITHUB_TOKEN`
-4. Secret: 上記で作成したPersonal Access Token
-5. "Add secret" をクリック
+4. Secret: Personal Access Token created above
+5. Click "Add secret"
 
-#### 3. GitHub Actions の有効化
-1. リポジトリの Actions タブに移動
-2. "I understand my workflows, go ahead and enable them" をクリック
-3. 初回実行は手動で "Run workflow" をクリック
+#### 3. Enable GitHub Actions
+1. Navigate to the repository's Actions tab
+2. Click "I understand my workflows, go ahead and enable them"
+3. For first run, manually click "Run workflow"
 
-### 動作確認
-- GitHub Actions の "Update Visualizations" ワークフローが正常に実行されることを確認
-- 生成されたSVGファイルがコミットされることを確認
-- READMEに表示されるビジュアライゼーションが更新されることを確認
+### Verification
+- Confirm GitHub Actions "Update Visualizations" workflow runs successfully
+- Confirm generated SVG files are committed
+- Confirm visualizations in README are updated

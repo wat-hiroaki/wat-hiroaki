@@ -14,11 +14,11 @@ const padding = 20;
 const hourLabelsWidth = 30;
 const dayLabelsHeight = 20;
 
-// グリッドのサイズ計算
-const gridWidth = 24 * (cellSize + cellSpacing) - cellSpacing;
-const gridHeight = 7 * (cellSize + cellSpacing) - cellSpacing;
-const svgWidth = hourLabelsWidth + gridWidth + padding * 2;
-const svgHeight = dayLabelsHeight + gridHeight + padding * 2;
+// グリッドのサイズ計算（曜日が列、時間が行）
+const gridWidth = 7 * (cellSize + cellSpacing) - cellSpacing;
+const gridHeight = 24 * (cellSize + cellSpacing) - cellSpacing;
+const svgWidth = gridWidth + padding * 2 + hourLabelsWidth;
+const svgHeight = gridHeight + padding * 2 + dayLabelsHeight;
 
 // 活動レベルに応じた色の定義
 const getActivityColor = (level) => {
@@ -42,55 +42,38 @@ let svg = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.o
   
   <!-- 背景 -->
   <rect width="${svgWidth}" height="${svgHeight}" fill="#f8f9fa"/>
-  
-  <!-- 曜日ラベル -->
 `;
 
-// 曜日ラベルを追加
-days.forEach((day, dayIndex) => {
-  const y = dayLabelsHeight + padding + dayIndex * (cellSize + cellSpacing) + cellSize / 2;
-  svg += `  <text x="${hourLabelsWidth - 5}" y="${y}" class="day-label">${dayLabels[dayIndex]}</text>\n`;
-});
 
-// 時間ラベルを追加
-for (let hour = 0; hour < 24; hour++) {
-  const x = hourLabelsWidth + padding + hour * (cellSize + cellSpacing) + cellSize / 2;
-  svg += `  <text x="${x}" y="${dayLabelsHeight - 5}" class="hour-label">${hour}</text>\n`;
-}
-
-// ヒートマップセルを追加
+// ヒートマップセルを追加（曜日が列、時間が行）
 days.forEach((day, dayIndex) => {
   const dayData = activityData[day] || {};
   
   for (let hour = 0; hour < 24; hour++) {
     const activityLevel = dayData[hour.toString()] || 0;
-    const x = hourLabelsWidth + padding + hour * (cellSize + cellSpacing);
-    const y = dayLabelsHeight + padding + dayIndex * (cellSize + cellSpacing);
+    const x = padding + hourLabelsWidth + dayIndex * (cellSize + cellSpacing);
+    const y = padding + dayLabelsHeight + hour * (cellSize + cellSpacing);
     
     svg += `  <rect x="${x}" y="${y}" width="${cellSize}" height="${cellSize}" 
            fill="${getActivityColor(activityLevel)}" class="cell"/>\n`;
   }
 });
 
-// 凡例を追加
-svg += `
-  <!-- 凡例 -->
-  <g transform="translate(${svgWidth - 120}, ${svgHeight - 60})">
-    <text x="0" y="0" font-family="Arial, sans-serif" font-size="10" fill="#333">Activity Level</text>
-    <rect x="0" y="5" width="12" height="12" fill="#f5f5f5" stroke="#fff" stroke-width="0.5"/>
-    <text x="15" y="15" font-family="Arial, sans-serif" font-size="8" fill="#666">0</text>
-    <rect x="25" y="5" width="12" height="12" fill="#e0e0e0" stroke="#fff" stroke-width="0.5"/>
-    <text x="40" y="15" font-family="Arial, sans-serif" font-size="8" fill="#666">1</text>
-    <rect x="50" y="5" width="12" height="12" fill="#66bb6a" stroke="#fff" stroke-width="0.5"/>
-    <text x="65" y="15" font-family="Arial, sans-serif" font-size="8" fill="#666">2</text>
-    <rect x="75" y="5" width="12" height="12" fill="#ffeb3b" stroke="#fff" stroke-width="0.5"/>
-    <text x="90" y="15" font-family="Arial, sans-serif" font-size="8" fill="#666">3</text>
-    <rect x="0" y="20" width="12" height="12" fill="#ffa726" stroke="#fff" stroke-width="0.5"/>
-    <text x="15" y="30" font-family="Arial, sans-serif" font-size="8" fill="#666">4</text>
-    <rect x="25" y="20" width="12" height="12" fill="#ff6b6b" stroke="#fff" stroke-width="0.5"/>
-    <text x="40" y="30" font-family="Arial, sans-serif" font-size="8" fill="#666">5</text>
-  </g>
-</svg>`;
+// 曜日ラベルを追加（列）
+dayLabels.forEach((label, dayIndex) => {
+  const x = padding + hourLabelsWidth + dayIndex * (cellSize + cellSpacing) + cellSize / 2;
+  const y = padding + dayLabelsHeight - 5;
+  svg += `  <text x="${x}" y="${y}" class="day-label" text-anchor="middle">${label}</text>\n`;
+});
+
+// 時間ラベルを追加（行）
+for (let hour = 0; hour < 24; hour++) {
+  const x = padding + hourLabelsWidth - 5;
+  const y = padding + dayLabelsHeight + hour * (cellSize + cellSpacing) + cellSize / 2 + 3;
+  svg += `  <text x="${x}" y="${y}" class="hour-label" text-anchor="end">${hour}</text>\n`;
+}
+
+svg += `</svg>`;
 
 // SVGファイルを保存
 fs.writeFileSync('activity-heatmap.svg', svg);
