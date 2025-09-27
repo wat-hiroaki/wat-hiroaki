@@ -47,14 +47,6 @@ for (let hour = 0; hour < 24; hour++) {
   textVisualization += '\n';
 }
 
-// ヒートマップ凡例
-textVisualization += '\nLegend:\n';
-textVisualization += '█ High Activity (Level 5)\n';
-textVisualization += '▓ High-Medium Activity (Level 4)\n';
-textVisualization += '▒ Medium Activity (Level 3)\n';
-textVisualization += '░ Low Activity (Level 2)\n';
-textVisualization += '· Inactive (Level 1)\n';
-textVisualization += '  No Data (Level 0)\n';
 
 // 技術スタック部分
 textVisualization += '\n\n🛠️  TECH STACK\n';

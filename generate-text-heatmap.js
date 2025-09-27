@@ -42,15 +42,6 @@ for (let hour = 0; hour < 24; hour++) {
   textHeatmap += '\n';
 }
 
-// 凡例
-textHeatmap += '\n';
-textHeatmap += 'Legend:\n';
-textHeatmap += '█ High Activity (Level 5)\n';
-textHeatmap += '▓ High-Medium Activity (Level 4)\n';
-textHeatmap += '▒ Medium Activity (Level 3)\n';
-textHeatmap += '░ Low Activity (Level 2)\n';
-textHeatmap += '· Inactive (Level 1)\n';
-textHeatmap += '  No Data (Level 0)\n';
 
 // テキストファイルを保存
 fs.writeFileSync('activity-heatmap.txt', textHeatmap);
