@@ -54,7 +54,7 @@ textHeatmap += '\n';
 
 // 時間帯行を生成
 timeZones.forEach(timeZone => {
-  textHeatmap += timeZone.name.padStart(2) + ': ';
+  textHeatmap += timeZone.name.padStart(5) + ' ';
   
   days.forEach(day => {
     const dayData = activityData[day] || {};

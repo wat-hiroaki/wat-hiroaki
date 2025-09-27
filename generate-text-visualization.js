@@ -59,7 +59,7 @@ textVisualization += '\n';
 
 // 時間帯行を生成
 timeZones.forEach(timeZone => {
-  textVisualization += timeZone.name.padStart(2) + ': ';
+  textVisualization += timeZone.name.padStart(5) + ' ';
   
   days.forEach(day => {
     const dayData = activityData[day] || {};
