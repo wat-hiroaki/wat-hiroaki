@@ -1,4 +1,4 @@
-name: Update Activity Heatmap
+name: Update Visualizations
 
 on:
   schedule:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch: # 手動実行も可能
 
 jobs:
-  update-heatmap:
+  update-visualizations:
     runs-on: ubuntu-latest
     
     steps:
@@ -21,9 +21,9 @@ jobs:
       with:
         node-version: '18'
     
-    - name: Generate heatmap
+    - name: Generate all visualizations
       run: |
-        node generate-heatmap.js
+        node generate-all.js
     
     - name: Check for changes
       id: verify-changed-files
@@ -39,6 +39,6 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add activity-heatmap.svg
-        git commit -m "🔄 Update activity heatmap [skip ci]"
+        git add activity-heatmap.svg tech-stack.svg
+        git commit -m "🔄 Update visualizations [skip ci]"
         git push
