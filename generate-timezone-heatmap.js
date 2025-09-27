@@ -2,7 +2,6 @@ const fs = require('fs');
 
 // 活動データを読み込み
 const activityData = JSON.parse(fs.readFileSync('activity-data.json', 'utf8'));
-const techStackData = JSON.parse(fs.readFileSync('tech-stack-data.json', 'utf8'));
 
 // 曜日の順序（月曜日始まり）
 const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
@@ -43,53 +42,30 @@ const getTimeZoneActivityLevel = (dayData, hours) => {
   return count > 0 ? Math.round(totalLevel / count) : 0;
 };
 
-// テキストビジュアライゼーション生成
-let textVisualization = '';
-
-// ヒートマップ部分
-textVisualization += '📊 ACTIVITY HEATMAP\n';
-textVisualization += '='.repeat(50) + '\n\n';
+// テキストヒートマップ生成
+let textHeatmap = '';
 
 // ヘッダー行（曜日ラベル）
-textVisualization += '     ';
+textHeatmap += '     ';
 dayLabels.forEach(day => {
-  textVisualization += day.padEnd(3);
+  textHeatmap += day.padEnd(3);
 });
-textVisualization += '\n';
+textHeatmap += '\n';
 
 // 時間帯行を生成
 timeZones.forEach(timeZone => {
-  textVisualization += timeZone.name.padStart(2) + ': ';
+  textHeatmap += timeZone.name.padStart(2) + ': ';
   
   days.forEach(day => {
     const dayData = activityData[day] || {};
     const activityLevel = getTimeZoneActivityLevel(dayData, timeZone.hours);
-    textVisualization += getActivityChar(activityLevel) + '  ';
+    textHeatmap += getActivityChar(activityLevel) + '  ';
   });
   
-  textVisualization += '\n';
-});
-
-
-// 技術スタック部分
-textVisualization += '\n\n🛠️  TECH STACK\n';
-textVisualization += '='.repeat(50) + '\n\n';
-
-// 各技術のバーグラフを生成
-Object.entries(techStackData.techStack).forEach(([tech, percentage]) => {
-  const barLength = Math.round(percentage / 2); // 50% = 25文字のバー
-  let bar = '';
-  
-  // バーを生成
-  for (let i = 0; i < barLength; i++) {
-    bar += '█';
-  }
-  
-  // 技術名とパーセンテージを追加
-  textVisualization += tech.padEnd(12) + '│' + bar.padEnd(25) + '│ ' + percentage + '%\n';
+  textHeatmap += '\n';
 });
 
 // テキストファイルを保存
-fs.writeFileSync('visualization.txt', textVisualization);
-console.log('Text visualization generated successfully!');
-console.log('\n' + textVisualization);
+fs.writeFileSync('activity-heatmap.txt', textHeatmap);
+console.log('Timezone heatmap generated successfully!');
+console.log('\n' + textHeatmap);
