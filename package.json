@@ -7,6 +7,7 @@
     "generate": "node generate-all.js",
     "generate:heatmap": "node generate-heatmap.js",
     "generate:tech": "node generate-tech-stack.js",
+    "generate:readme": "node generate-readme.js",
     "fetch:data": "node fetch-github-data.js",
     "test": "echo \"No tests specified\" && exit 0"
   },

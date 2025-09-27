@@ -30,11 +30,31 @@ try {
   console.error('❌ Error generating tech stack bar:', error.message);
 }
 
+// テキストヒートマップ生成
+console.log('📝 Generating text heatmap...');
+try {
+  require('./generate-text-heatmap.js');
+  console.log('✅ Text heatmap generated successfully!');
+} catch (error) {
+  console.error('❌ Error generating text heatmap:', error.message);
+}
+
+// READMEファイル生成
+console.log('📖 Generating README.md...');
+try {
+  require('./generate-readme.js');
+  console.log('✅ README.md generated successfully!');
+} catch (error) {
+  console.error('❌ Error generating README.md:', error.message);
+}
+
 console.log('🎉 All visualizations generated successfully!');
 console.log('');
 console.log('Generated files:');
 console.log('- activity-heatmap.svg');
 console.log('- tech-stack.svg');
+console.log('- activity-heatmap.txt');
+console.log('- README.md');
 console.log('');
 console.log('Next steps:');
 console.log('1. Review the generated SVG files');
