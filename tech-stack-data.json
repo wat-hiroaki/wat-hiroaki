@@ -1,0 +1,14 @@
+{
+  "techStack": {
+    "JavaScript": 85,
+    "Python": 70,
+    "TypeScript": 60,
+    "React": 50,
+    "Node.js": 40,
+    "Docker": 30,
+    "Git": 25,
+    "AWS": 20,
+    "MongoDB": 15,
+    "Redis": 10
+  }
+}

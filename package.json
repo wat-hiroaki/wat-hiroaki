@@ -1,0 +1,26 @@
+{
+  "name": "github-profile-activity-heatmap",
+  "version": "1.0.0",
+  "description": "GitHub profile activity heatmap generator",
+  "main": "generate-all.js",
+  "scripts": {
+    "generate": "node generate-all.js",
+    "generate:heatmap": "node generate-heatmap.js",
+    "generate:tech": "node generate-tech-stack.js",
+    "fetch:data": "node fetch-github-data.js",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": [
+    "github",
+    "profile",
+    "heatmap",
+    "activity",
+    "visualization",
+    "tech-stack"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
