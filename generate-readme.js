@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-// 活動データを読み込み
+// 活動データとテクニカルスタックデータを読み込み
 const activityData = JSON.parse(fs.readFileSync('activity-data.json', 'utf8'));
 const techStackData = JSON.parse(fs.readFileSync('tech-stack-data.json', 'utf8'));
 
@@ -43,34 +43,41 @@ const getTimeZoneActivityLevel = (dayData, hours) => {
   return count > 0 ? Math.round(totalLevel / count) : 0;
 };
 
-// テキストビジュアライゼーション生成
-let textVisualization = '';
+// READMEファイルを生成
+let readmeContent = '';
+
+// タイトル
+readmeContent += '起業準備now\n\n';
 
 // ヒートマップ部分
-textVisualization += '📊 ACTIVITY HEATMAP\n\n';
+readmeContent += '🗓️ 活発なタイミング（過去30日）\n';
+readmeContent += '```\n';
 
 // ヘッダー行（曜日ラベル）
-textVisualization += '     ';
+readmeContent += '     ';
 dayLabels.forEach(day => {
-  textVisualization += day.padEnd(3);
+  readmeContent += day.padEnd(3);
 });
-textVisualization += '\n';
+readmeContent += '\n';
 
 // 時間帯行を生成
 timeZones.forEach(timeZone => {
-  textVisualization += timeZone.name.padStart(5) + ' ';
+  readmeContent += timeZone.name.padStart(5) + ' ';
   
   days.forEach(day => {
     const dayData = activityData[day] || {};
     const activityLevel = getTimeZoneActivityLevel(dayData, timeZone.hours);
-    textVisualization += getActivityChar(activityLevel) + '  ';
+    readmeContent += getActivityChar(activityLevel) + '  ';
   });
   
-  textVisualization += '\n';
+  readmeContent += '\n';
 });
 
+readmeContent += '```\n\n';
+
 // 技術スタック部分
-textVisualization += '\n🛠️  TECH STACK\n\n';
+readmeContent += '👨‍💻 技術スタック（過去30日）\n';
+readmeContent += '```\n';
 
 // 各技術のバーグラフを生成
 Object.entries(techStackData.techStack).forEach(([tech, percentage]) => {
@@ -83,10 +90,13 @@ Object.entries(techStackData.techStack).forEach(([tech, percentage]) => {
   }
   
   // 技術名とパーセンテージを追加
-  textVisualization += tech.padEnd(12) + '│' + bar.padEnd(25) + '│ ' + percentage + '%\n';
+  readmeContent += tech.padEnd(12) + '│' + bar.padEnd(25) + '│ ' + percentage + '%\n';
 });
 
-// テキストファイルを保存
-fs.writeFileSync('visualization.txt', textVisualization);
-console.log('Text visualization generated successfully!');
-console.log('\n' + textVisualization);
+readmeContent += '```\n';
+
+// READMEファイルを保存
+fs.writeFileSync('README.md', readmeContent);
+console.log('README.md generated successfully!');
+console.log('\nGenerated README content:');
+console.log(readmeContent);
