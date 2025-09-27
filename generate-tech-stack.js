@@ -21,10 +21,8 @@ const techColors = {
 // SVGの設定
 const barWidth = 400;
 const barHeight = 20;
-const rowHeight = 30;
+const rowHeight = 25;
 const padding = 20;
-const labelWidth = 120;
-const percentageWidth = 40;
 
 // 技術を習熟度順でソート
 const sortedTechs = Object.entries(techStack)
@@ -62,11 +60,6 @@ sortedTechs.forEach(([techName, percentage], index) => {
   // 技術バー
   svg += `  <rect x="${barX}" y="${y}" width="${fillWidth}" height="${barHeight}" fill="${color}" class="bar-fill"/>\n`;
   
-  // 技術名ラベル
-  svg += `  <text x="${padding}" y="${y + 15}" class="tech-label">${techName}</text>\n`;
-  
-  // パーセンテージラベル
-  svg += `  <text x="${barX + barWidth + 10}" y="${y + 15}" class="percentage-label">${percentage}%</text>\n`;
 });
 
 svg += `</svg>`;
