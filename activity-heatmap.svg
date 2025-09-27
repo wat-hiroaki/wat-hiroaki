@@ -1,12 +1,16 @@
 <svg width="166" height="394" xmlns="http://www.w3.org/2000/svg">
   <style>
-    .day-label { font-family: Arial, sans-serif; font-size: 10px; fill: #666; text-anchor: end; }
-    .hour-label { font-family: Arial, sans-serif; font-size: 8px; fill: #666; text-anchor: middle; }
-    .cell { stroke: #fff; stroke-width: 0.5; }
+    .day-label { font-family: Arial, sans-serif; font-size: 10px; fill: #ffffff; text-anchor: end; }
+    .hour-label { font-family: Arial, sans-serif; font-size: 8px; fill: #ffffff; text-anchor: middle; }
+    .cell { stroke: #333; stroke-width: 0.5; }
+    .card-bg { fill: #2a2a2a; stroke: #444; stroke-width: 1; }
   </style>
   
-  <!-- 背景 -->
-  <rect width="166" height="394" fill="#f8f9fa"/>
+  <!-- ダークテーマ背景 -->
+  <rect width="166" height="394" fill="#1a1a1a"/>
+  
+  <!-- カード背景 -->
+  <rect x="10" y="10" width="146" height="374" rx="8" class="card-bg"/>
   <rect x="50" y="40" width="12" height="12" 
            fill="#f5f5f5" class="cell"/>
   <rect x="50" y="54" width="12" height="12" 
