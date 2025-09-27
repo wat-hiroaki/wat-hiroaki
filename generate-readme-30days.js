@@ -1,8 +1,8 @@
 const fs = require('fs');
 
-// 活動データとテクニカルスタックデータを読み込み
-const activityData = JSON.parse(fs.readFileSync('activity-data.json', 'utf8'));
-const techStackData = JSON.parse(fs.readFileSync('tech-stack-data.json', 'utf8'));
+// 30日間の活動データとテクニカルスタックデータを読み込み
+const activityData = JSON.parse(fs.readFileSync('activity-data-30days.json', 'utf8'));
+const techStackData = JSON.parse(fs.readFileSync('tech-stack-data-30days.json', 'utf8'));
 
 // 曜日の順序（月曜日始まり）
 const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
@@ -96,7 +96,7 @@ Object.entries(techStackData.techStack).forEach(([tech, percentage]) => {
 readmeContent += '```\n';
 
 // READMEファイルを保存
-fs.writeFileSync('README.md', readmeContent);
-console.log('README.md generated successfully!');
+fs.writeFileSync('README-30days.md', readmeContent);
+console.log('README-30days.md generated successfully!');
 console.log('\nGenerated README content:');
 console.log(readmeContent);

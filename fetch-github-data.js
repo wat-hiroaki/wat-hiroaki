@@ -51,12 +51,12 @@ async function getRepositoryLanguages(repoName) {
   }
 }
 
-// リポジトリのコミット履歴を取得（過去1年）
+// リポジトリのコミット履歴を取得（過去30日）
 async function getRepositoryCommits(repoName) {
   try {
-    const oneYearAgo = new Date();
-    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-    const since = oneYearAgo.toISOString();
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const since = thirtyDaysAgo.toISOString();
     
     const commits = await githubApiRequest(
       `https://api.github.com/repos/${GITHUB_USERNAME}/${repoName}/commits?author=${GITHUB_USERNAME}&since=${since}&per_page=100`
@@ -120,7 +120,7 @@ async function generateTechStackData() {
   
   const languageStats = {};
   
-  for (const repo of repos.slice(0, 20)) { // 最新20リポジトリ
+  for (const repo of repos.slice(0, 10)) { // 最新10リポジトリ（30日間で活動があるもの）
     console.log(`Processing languages for ${repo.name}...`);
     const languages = await getRepositoryLanguages(repo.name);
     
