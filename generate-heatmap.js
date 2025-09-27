@@ -14,11 +14,11 @@ const padding = 20;
 const hourLabelsWidth = 30;
 const dayLabelsHeight = 20;
 
-// グリッドのサイズ計算
-const gridWidth = 24 * (cellSize + cellSpacing) - cellSpacing;
-const gridHeight = 7 * (cellSize + cellSpacing) - cellSpacing;
-const svgWidth = gridWidth + padding * 2;
-const svgHeight = gridHeight + padding * 2;
+// グリッドのサイズ計算（曜日が列、時間が行）
+const gridWidth = 7 * (cellSize + cellSpacing) - cellSpacing;
+const gridHeight = 24 * (cellSize + cellSpacing) - cellSpacing;
+const svgWidth = gridWidth + padding * 2 + hourLabelsWidth;
+const svgHeight = gridHeight + padding * 2 + dayLabelsHeight;
 
 // 活動レベルに応じた色の定義
 const getActivityColor = (level) => {
@@ -45,19 +45,33 @@ let svg = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.o
 `;
 
 
-// ヒートマップセルを追加
+// ヒートマップセルを追加（曜日が列、時間が行）
 days.forEach((day, dayIndex) => {
   const dayData = activityData[day] || {};
   
   for (let hour = 0; hour < 24; hour++) {
     const activityLevel = dayData[hour.toString()] || 0;
-    const x = padding + hour * (cellSize + cellSpacing);
-    const y = padding + dayIndex * (cellSize + cellSpacing);
+    const x = padding + hourLabelsWidth + dayIndex * (cellSize + cellSpacing);
+    const y = padding + dayLabelsHeight + hour * (cellSize + cellSpacing);
     
     svg += `  <rect x="${x}" y="${y}" width="${cellSize}" height="${cellSize}" 
            fill="${getActivityColor(activityLevel)}" class="cell"/>\n`;
   }
 });
+
+// 曜日ラベルを追加（列）
+dayLabels.forEach((label, dayIndex) => {
+  const x = padding + hourLabelsWidth + dayIndex * (cellSize + cellSpacing) + cellSize / 2;
+  const y = padding + dayLabelsHeight - 5;
+  svg += `  <text x="${x}" y="${y}" class="day-label" text-anchor="middle">${label}</text>\n`;
+});
+
+// 時間ラベルを追加（行）
+for (let hour = 0; hour < 24; hour++) {
+  const x = padding + hourLabelsWidth - 5;
+  const y = padding + dayLabelsHeight + hour * (cellSize + cellSpacing) + cellSize / 2 + 3;
+  svg += `  <text x="${x}" y="${y}" class="hour-label" text-anchor="end">${hour}</text>\n`;
+}
 
 svg += `</svg>`;
 
