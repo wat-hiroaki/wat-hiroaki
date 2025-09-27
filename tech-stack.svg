@@ -9,38 +9,20 @@
   <!-- 背景 -->
   <rect width="600" height="280" fill="#f8f9fa"/>
   
-  <!-- タイトル -->
-  <text x="20" y="35" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">技術スタック</text>
   <rect x="140" y="50" width="400" height="20" class="bar-bg"/>
   <rect x="140" y="50" width="340" height="20" fill="#F7DF1E" class="bar-fill"/>
-  <text x="20" y="65" class="tech-label">JavaScript</text>
-  <text x="550" y="65" class="percentage-label">85%</text>
   <rect x="140" y="80" width="400" height="20" class="bar-bg"/>
   <rect x="140" y="80" width="280" height="20" fill="#3776AB" class="bar-fill"/>
-  <text x="20" y="95" class="tech-label">Python</text>
-  <text x="550" y="95" class="percentage-label">70%</text>
   <rect x="140" y="110" width="400" height="20" class="bar-bg"/>
   <rect x="140" y="110" width="240" height="20" fill="#3178C6" class="bar-fill"/>
-  <text x="20" y="125" class="tech-label">TypeScript</text>
-  <text x="550" y="125" class="percentage-label">60%</text>
   <rect x="140" y="140" width="400" height="20" class="bar-bg"/>
   <rect x="140" y="140" width="200" height="20" fill="#61DAFB" class="bar-fill"/>
-  <text x="20" y="155" class="tech-label">React</text>
-  <text x="550" y="155" class="percentage-label">50%</text>
   <rect x="140" y="170" width="400" height="20" class="bar-bg"/>
   <rect x="140" y="170" width="160" height="20" fill="#339933" class="bar-fill"/>
-  <text x="20" y="185" class="tech-label">Node.js</text>
-  <text x="550" y="185" class="percentage-label">40%</text>
   <rect x="140" y="200" width="400" height="20" class="bar-bg"/>
   <rect x="140" y="200" width="120" height="20" fill="#2496ED" class="bar-fill"/>
-  <text x="20" y="215" class="tech-label">Docker</text>
-  <text x="550" y="215" class="percentage-label">30%</text>
   <rect x="140" y="230" width="400" height="20" class="bar-bg"/>
   <rect x="140" y="230" width="100" height="20" fill="#F05032" class="bar-fill"/>
-  <text x="20" y="245" class="tech-label">Git</text>
-  <text x="550" y="245" class="percentage-label">25%</text>
   <rect x="140" y="260" width="400" height="20" class="bar-bg"/>
   <rect x="140" y="260" width="80" height="20" fill="#FF9900" class="bar-fill"/>
-  <text x="20" y="275" class="tech-label">AWS</text>
-  <text x="550" y="275" class="percentage-label">20%</text>
 </svg>

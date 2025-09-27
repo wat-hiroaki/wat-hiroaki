@@ -47,13 +47,11 @@ let svg = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.o
   <!-- 背景 -->
   <rect width="${svgWidth}" height="${svgHeight}" fill="#f8f9fa"/>
   
-  <!-- タイトル -->
-  <text x="${padding}" y="${padding + 15}" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">技術スタック</text>
 `;
 
 // 各技術のバーを生成
 sortedTechs.forEach(([techName, percentage], index) => {
-  const y = padding + 30 + index * rowHeight;
+  const y = padding + index * rowHeight;
   const barX = padding + labelWidth;
   const fillWidth = (barWidth * percentage) / 100;
   const color = techColors[techName] || '#666';
