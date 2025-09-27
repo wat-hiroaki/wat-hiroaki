@@ -14,6 +14,12 @@
 - ⚪ **レベル1**: 非活動
 - ⚫ **レベル0**: データなし
 
+## 🛠️ 技術スタック
+
+主に使用している技術の習熟度を表示しています。
+
+![Tech Stack](./tech-stack.svg)
+
 ### データの更新方法
 1. `activity-data.json` ファイルを編集
 2. `node generate-heatmap.js` を実行してSVGを再生成
