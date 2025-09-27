@@ -30,7 +30,7 @@ const sortedTechs = Object.entries(techStack)
   .slice(0, 8); // 上位8技術のみ表示
 
 // SVGのサイズ計算
-const svgWidth = labelWidth + barWidth + percentageWidth + padding * 2;
+const svgWidth = barWidth + padding * 2;
 const svgHeight = sortedTechs.length * rowHeight + padding * 2;
 
 // SVG生成
@@ -50,7 +50,7 @@ let svg = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.o
 // 各技術のバーを生成
 sortedTechs.forEach(([techName, percentage], index) => {
   const y = padding + index * rowHeight;
-  const barX = padding + labelWidth;
+  const barX = padding;
   const fillWidth = (barWidth * percentage) / 100;
   const color = techColors[techName] || '#666';
   
