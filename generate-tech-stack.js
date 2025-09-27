@@ -36,14 +36,18 @@ const svgHeight = sortedTechs.length * rowHeight + padding * 2;
 // SVG生成
 let svg = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
   <style>
-    .tech-label { font-family: Arial, sans-serif; font-size: 12px; fill: #333; text-anchor: start; }
-    .percentage-label { font-family: Arial, sans-serif; font-size: 12px; fill: #666; text-anchor: end; }
-    .bar-bg { fill: #e0e0e0; stroke: #ccc; stroke-width: 0.5; }
-    .bar-fill { stroke: #fff; stroke-width: 0.5; }
+    .tech-label { font-family: Arial, sans-serif; font-size: 12px; fill: #ffffff; text-anchor: start; }
+    .percentage-label { font-family: Arial, sans-serif; font-size: 12px; fill: #cccccc; text-anchor: end; }
+    .bar-bg { fill: #333333; stroke: #555; stroke-width: 0.5; }
+    .bar-fill { stroke: #666; stroke-width: 0.5; }
+    .card-bg { fill: #2a2a2a; stroke: #444; stroke-width: 1; }
   </style>
   
-  <!-- 背景 -->
-  <rect width="${svgWidth}" height="${svgHeight}" fill="#f8f9fa"/>
+  <!-- ダークテーマ背景 -->
+  <rect width="${svgWidth}" height="${svgHeight}" fill="#1a1a1a"/>
+  
+  <!-- カード背景 -->
+  <rect x="10" y="10" width="${svgWidth - 20}" height="${svgHeight - 20}" rx="8" class="card-bg"/>
   
 `;
 
@@ -59,6 +63,12 @@ sortedTechs.forEach(([techName, percentage], index) => {
   
   // 技術バー
   svg += `  <rect x="${barX}" y="${y}" width="${fillWidth}" height="${barHeight}" fill="${color}" class="bar-fill"/>\n`;
+  
+  // 技術名ラベル
+  svg += `  <text x="${barX + 5}" y="${y + barHeight/2 + 4}" class="tech-label">${techName}</text>\n`;
+  
+  // パーセンテージラベル
+  svg += `  <text x="${barX + barWidth - 5}" y="${y + barHeight/2 + 4}" class="percentage-label">${percentage}%</text>\n`;
   
 });
 

@@ -35,13 +35,17 @@ const getActivityColor = (level) => {
 // SVG生成
 let svg = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
   <style>
-    .day-label { font-family: Arial, sans-serif; font-size: 10px; fill: #666; text-anchor: end; }
-    .hour-label { font-family: Arial, sans-serif; font-size: 8px; fill: #666; text-anchor: middle; }
-    .cell { stroke: #fff; stroke-width: 0.5; }
+    .day-label { font-family: Arial, sans-serif; font-size: 10px; fill: #ffffff; text-anchor: end; }
+    .hour-label { font-family: Arial, sans-serif; font-size: 8px; fill: #ffffff; text-anchor: middle; }
+    .cell { stroke: #333; stroke-width: 0.5; }
+    .card-bg { fill: #2a2a2a; stroke: #444; stroke-width: 1; }
   </style>
   
-  <!-- 背景 -->
-  <rect width="${svgWidth}" height="${svgHeight}" fill="#f8f9fa"/>
+  <!-- ダークテーマ背景 -->
+  <rect width="${svgWidth}" height="${svgHeight}" fill="#1a1a1a"/>
+  
+  <!-- カード背景 -->
+  <rect x="10" y="10" width="${svgWidth - 20}" height="${svgHeight - 20}" rx="8" class="card-bg"/>
 `;
 
 
