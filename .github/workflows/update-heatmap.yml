@@ -22,6 +22,9 @@ jobs:
         node-version: '18'
     
     - name: Generate all visualizations
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_USERNAME: ${{ github.repository_owner }}
       run: |
         node generate-all.js
     
@@ -39,6 +42,6 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add activity-heatmap.svg tech-stack.svg
-        git commit -m "🔄 Update visualizations [skip ci]"
+        git add activity-heatmap.svg tech-stack.svg activity-data.json tech-stack-data.json
+        git commit -m "🔄 Update visualizations with real GitHub data [skip ci]"
         git push

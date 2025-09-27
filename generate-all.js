@@ -2,6 +2,16 @@ const fs = require('fs');
 
 console.log('🚀 Starting unified generation...');
 
+// GitHub APIからデータを取得
+console.log('📡 Fetching data from GitHub API...');
+try {
+  require('./fetch-github-data.js');
+  console.log('✅ GitHub data fetched successfully!');
+} catch (error) {
+  console.error('❌ Error fetching GitHub data:', error.message);
+  console.log('📝 Using existing data files...');
+}
+
 // ヒートマップ生成
 console.log('📊 Generating activity heatmap...');
 try {
