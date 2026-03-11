@@ -1,25 +1,14 @@
 {
-  "name": "github-profile-activity-heatmap",
-  "version": "1.0.0",
-  "description": "GitHub profile activity heatmap generator",
+  "name": "github-profile-readme",
+  "version": "2.0.0",
+  "description": "Auto-generated GitHub profile README with tech stack visualization",
+  "private": true,
   "main": "generate-all.js",
   "scripts": {
     "generate": "node generate-all.js",
-    "generate:readme": "node generate-readme.js",
-    "fetch:data": "node fetch-github-data.js",
-    "test": "echo \"No tests specified\" && exit 0"
+    "fetch": "node fetch-github-data.js"
   },
-  "keywords": [
-    "github",
-    "profile",
-    "heatmap",
-    "activity",
-    "visualization",
-    "tech-stack"
-  ],
-  "author": "",
-  "license": "MIT",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   }
 }

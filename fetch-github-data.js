@@ -2,8 +2,8 @@ const fs = require('fs');
 const https = require('https');
 
 // GitHub API設定
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const GITHUB_USERNAME = process.env.GITHUB_USERNAME || 'your-username';
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN || process.env.GH_PAT;
+const GITHUB_USERNAME = process.env.GITHUB_USERNAME || 'wat-hiroaki';
 
 // GitHub API呼び出し関数
 function githubApiRequest(url) {
@@ -21,7 +21,7 @@ function githubApiRequest(url) {
       res.on('data', (chunk) => data += chunk);
       res.on('end', () => {
         try {
-          resolve(JSON.parse(data));
+          resolve({ data: JSON.parse(data), headers: res.headers });
         } catch (error) {
           reject(error);
         }
@@ -30,150 +30,92 @@ function githubApiRequest(url) {
   });
 }
 
-// ユーザーのリポジトリ一覧を取得
-async function getUserRepositories() {
-  try {
-    const repos = await githubApiRequest(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`);
-    return repos.filter(repo => !repo.fork); // フォークを除外
-  } catch (error) {
-    console.error('Error fetching repositories:', error.message);
-    return [];
+// ページネーション対応でリポジトリ一覧を取得（プライベート含む）
+async function getAllRepositories() {
+  const repos = [];
+  let page = 1;
+
+  while (true) {
+    const url = `https://api.github.com/user/repos?visibility=all&affiliation=owner&per_page=100&sort=updated&page=${page}`;
+    const { data } = await githubApiRequest(url);
+
+    if (!Array.isArray(data) || data.length === 0) break;
+
+    repos.push(...data.filter(repo => !repo.fork));
+    if (data.length < 100) break;
+    page++;
   }
+
+  return repos;
 }
 
 // リポジトリの言語統計を取得
-async function getRepositoryLanguages(repoName) {
+async function getRepositoryLanguages(owner, repoName) {
   try {
-    return await githubApiRequest(`https://api.github.com/repos/${GITHUB_USERNAME}/${repoName}/languages`);
+    const { data } = await githubApiRequest(
+      `https://api.github.com/repos/${owner}/${repoName}/languages`
+    );
+    return data;
   } catch (error) {
-    console.error(`Error fetching languages for ${repoName}:`, error.message);
+    console.error(`  ⚠️ Skipped ${repoName}: ${error.message}`);
     return {};
   }
 }
 
-// リポジトリのコミット履歴を取得（過去30日）
-async function getRepositoryCommits(repoName) {
-  try {
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    const since = thirtyDaysAgo.toISOString();
-    
-    const commits = await githubApiRequest(
-      `https://api.github.com/repos/${GITHUB_USERNAME}/${repoName}/commits?author=${GITHUB_USERNAME}&since=${since}&per_page=100`
-    );
-    return commits;
-  } catch (error) {
-    console.error(`Error fetching commits for ${repoName}:`, error.message);
-    return [];
-  }
-}
-
-// 活動データを生成
-async function generateActivityData() {
-  console.log('📊 Generating activity data from GitHub...');
-  
-  const repos = await getUserRepositories();
-  console.log(`Found ${repos.length} repositories`);
-  
-  const activityData = {
-    monday: {}, tuesday: {}, wednesday: {}, thursday: {}, friday: {}, saturday: {}, sunday: {}
-  };
-  
-  const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-  
-  for (const repo of repos.slice(0, 10)) { // 最新10リポジトリのみ
-    console.log(`Processing ${repo.name}...`);
-    const commits = await getRepositoryCommits(repo.name);
-    
-    commits.forEach(commit => {
-      const date = new Date(commit.commit.author.date);
-      const dayOfWeek = dayNames[date.getDay()];
-      const hour = date.getHours();
-      
-      if (!activityData[dayOfWeek][hour]) {
-        activityData[dayOfWeek][hour] = 0;
-      }
-      activityData[dayOfWeek][hour]++;
-    });
-  }
-  
-  // 活動レベルを1-5に正規化
-  const allValues = Object.values(activityData).flatMap(day => Object.values(day));
-  const maxValue = Math.max(...allValues);
-  
-  Object.keys(activityData).forEach(day => {
-    Object.keys(activityData[day]).forEach(hour => {
-      const value = activityData[day][hour];
-      activityData[day][hour] = Math.min(5, Math.max(1, Math.ceil((value / maxValue) * 5)));
-    });
-  });
-  
-  return activityData;
-}
-
 // 技術スタックデータを生成
 async function generateTechStackData() {
-  console.log('🛠️ Generating tech stack data from GitHub...');
-  
-  const repos = await getUserRepositories();
-  console.log(`Found ${repos.length} repositories`);
-  
+  console.log('🛠️  Fetching tech stack data (including private repos)...');
+
+  const repos = await getAllRepositories();
+  console.log(`📦 Found ${repos.length} repositories (public + private)`);
+
   const languageStats = {};
-  
-  for (const repo of repos.slice(0, 10)) { // 最新10リポジトリ（30日間で活動があるもの）
-    console.log(`Processing languages for ${repo.name}...`);
-    const languages = await getRepositoryLanguages(repo.name);
-    
+
+  for (const repo of repos) {
+    process.stdout.write(`  📂 ${repo.name}...`);
+    const languages = await getRepositoryLanguages(repo.owner.login, repo.name);
+
     Object.entries(languages).forEach(([lang, bytes]) => {
-      if (!languageStats[lang]) {
-        languageStats[lang] = 0;
-      }
-      languageStats[lang] += bytes;
+      languageStats[lang] = (languageStats[lang] || 0) + bytes;
     });
+    console.log(' ✓');
   }
-  
+
   // 上位技術を選択し、パーセンテージに変換
-  const totalBytes = Object.values(languageStats).reduce((sum, bytes) => sum + bytes, 0);
-  const sortedLanguages = Object.entries(languageStats)
-    .sort(([,a], [,b]) => b - a)
+  const totalBytes = Object.values(languageStats).reduce((sum, b) => sum + b, 0);
+  const sorted = Object.entries(languageStats)
+    .sort(([, a], [, b]) => b - a)
     .slice(0, 10);
-  
+
   const techStack = {};
-  sortedLanguages.forEach(([lang, bytes]) => {
-    techStack[lang] = Math.round((bytes / totalBytes) * 100);
+  sorted.forEach(([lang, bytes]) => {
+    techStack[lang] = Math.round((bytes / totalBytes) * 1000) / 10; // 小数点1桁
   });
-  
-  return { techStack };
+
+  return { techStack, repoCount: repos.length };
 }
 
 // メイン実行関数
 async function main() {
   if (!GITHUB_TOKEN) {
-    console.error('❌ GITHUB_TOKEN environment variable is required');
+    console.error('❌ GITHUB_TOKEN or GH_PAT environment variable is required');
     process.exit(1);
   }
-  
+
   try {
-    // 活動データを生成
-    const activityData = await generateActivityData();
-    fs.writeFileSync('activity-data.json', JSON.stringify(activityData, null, 2));
-    console.log('✅ Activity data generated');
-    
-    // 技術スタックデータを生成
-    const techData = await generateTechStackData();
-    fs.writeFileSync('tech-stack-data.json', JSON.stringify(techData, null, 2));
-    console.log('✅ Tech stack data generated');
-    
-    console.log('🎉 All data generated successfully!');
+    const data = await generateTechStackData();
+    fs.writeFileSync('tech-stack-data.json', JSON.stringify(data, null, 2));
+    console.log('\n✅ Tech stack data generated successfully!');
+    console.log(`   Languages: ${Object.keys(data.techStack).join(', ')}`);
+    console.log(`   Repos analyzed: ${data.repoCount}`);
   } catch (error) {
-    console.error('❌ Error generating data:', error.message);
+    console.error('❌ Error:', error.message);
     process.exit(1);
   }
 }
 
-// スクリプトが直接実行された場合のみmainを呼び出し
 if (require.main === module) {
   main();
 }
 
-module.exports = { generateActivityData, generateTechStackData };
+module.exports = { generateTechStackData };

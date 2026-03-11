@@ -1,0 +1,5 @@
+node_modules/
+activity-data.json
+tech-stack-data.json
+activity-heatmap.txt
+tech-stack.txt
