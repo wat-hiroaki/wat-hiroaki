@@ -16,5 +16,3 @@ Shell                                      0.3%
 HTML                                       0.1%
 Batchfile                                  0.0%
 ```
-
-<sub>🤖 Updated automatically by GitHub Actions | 22 repos analyzed</sub>
