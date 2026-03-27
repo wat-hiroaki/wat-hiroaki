@@ -18,3 +18,7 @@ Batchfile                                      0.0%
 ```
 
 <sub>📊 Last updated: 2026-03-27 | 27 repos analyzed</sub>
+
+#### 🎵 Now Listening
+
+[![Spotify](https://img.shields.io/badge/Current%20Faves-1DB954?style=for-the-badge&logo=spotify&logoColor=white)](https://open.spotify.com/playlist/5xEiJCdkaglvxQDs7K4OMt?si=5yd2GOg1T-S7EjwhUhnU2w)
