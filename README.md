@@ -1,9 +1,7 @@
 ### Hi there 👋
-
-株式会社IMPMeのCEOをしています。
+Building things that spark excitement.
 
 #### 🛠️ Tech Stack
-
 ```
 TypeScript     █████████████████████████████  58.2%
 PLpgSQL        ████████████                   24.9%
@@ -16,7 +14,6 @@ Swift                                          0.2%
 Shell                                          0.2%
 Batchfile                                      0.0%
 ```
-
 <sub>📊 Last updated: 2026-03-27 | 27 repos analyzed</sub>
 
 #### 🎵 Now Listening
