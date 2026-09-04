@@ -3,19 +3,18 @@ Building things that spark excitement.
 
 #### 🛠️ Tech Stack
 ```
-TypeScript     ██████████████████               58.8%
-PLpgSQL        ███████                          22.5%
-Python         ██                                7.9%
-CSS            █                                 4.1%
-JavaScript     █                                 2.9%
-HTML           █                                 2.0%
-Rust                                             0.5%
-TeX                                              0.5%
-Swift                                            0.3%
+TypeScript     ██████████████████               59.6%
+PLpgSQL        ██████                           20.9%
+Python         ██                                7.3%
+CSS            █                                 3.8%
+HTML           █                                 3.6%
+JavaScript     █                                 3.2%
+Swift                                            0.8%
+TeX                                              0.4%
 Kotlin                                           0.2%
 Shell                                            0.2%
 ```
-<sub>📊 Last updated: 2026-04-10</sub>
+<sub>📊 Last updated: 2026-09-04 | 38 code repos analyzed</sub>
 
 #### 🎵 Now Listening
 
